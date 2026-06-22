@@ -13,19 +13,19 @@ import woowacourse.payment.PaymentResult;
 @Component
 public class TossPaymentGateway implements PaymentGateway {
 
-  private final RestClient tossRestClient;
-  private final ObjectMapper objectMapper;
+    private final RestClient tossRestClient;
+    private final ObjectMapper objectMapper;
 
-  public TossPaymentGateway(RestClient tossRestClient, ObjectMapper objectMapper) {
-    this.tossRestClient = tossRestClient;
-    this.objectMapper = objectMapper;
-  }
+    public TossPaymentGateway(RestClient tossRestClient, ObjectMapper objectMapper) {
+        this.tossRestClient = tossRestClient;
+        this.objectMapper = objectMapper;
+    }
 
-  @Override
-  public PaymentResult confirm(PaymentConfirmation confirmation) {
-    // TODO: ConfirmRequest 로 /v1/payments/confirm 을 호출하고, 에러 응답은 onStatus 에서
-    //   TossPaymentException.of(...) 로, 성공 응답은 PaymentResult 로 변환해 반환한다.
-    return null;
-  }
+    @Override
+    public PaymentResult confirm(PaymentConfirmation confirmation) {
+        // TODO: ConfirmRequest 로 /v1/payments/confirm 을 호출하고, 에러 응답은 onStatus 에서
+        //   TossPaymentException.of(...) 로, 성공 응답은 PaymentResult 로 변환해 반환한다.
+        return null;
+    }
 
 }
