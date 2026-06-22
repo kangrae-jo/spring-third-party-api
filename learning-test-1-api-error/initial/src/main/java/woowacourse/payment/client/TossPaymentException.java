@@ -24,7 +24,21 @@ public class TossPaymentException extends RuntimeException {
     public static TossPaymentException of(HttpStatusCode status, TossErrorResponse error) {
         // TODO: error.code() 별로 알맞은 중첩 예외를 반환한다(코드↔예외 짝은 아래 중첩 클래스 참고).
         //   정의되지 않은 코드는 기본 TossPaymentException 으로 반환한다.
-        return new TossPaymentException(status, error.code(), error.message());
+
+        String errorCode = error.code();
+        String errorMessage = error.message();
+
+        return switch (errorCode) {
+            case "ALREADY_PROCESSED_PAYMENT" -> new AlreadyProcessed(errorMessage);
+            case "DUPLICATED_ORDER_ID" -> new DuplicatedOrder(errorMessage);
+            case "NOT_FOUND_PAYMENT_SESSION" -> new SessionExpired(errorMessage);
+            case "INVALID_REQUEST" -> new InvalidRequest(errorMessage);
+            case "UNAUTHORIZED_KEY", "INVALID_API_KEY" -> new GatewayConfig(errorMessage);
+            case "REJECT_CARD_PAYMENT" -> new CardRejected(errorMessage);
+            case "NOT_FOUND_PAYMENT" -> new PaymentNotFound(errorMessage);
+            case "FAILED_PAYMENT_INTERNAL_SYSTEM_PROCESSING" -> new Retryable(errorMessage);
+            default -> new TossPaymentException(status, errorCode, errorMessage);
+        };
     }
 
     public HttpStatusCode getStatus() {
