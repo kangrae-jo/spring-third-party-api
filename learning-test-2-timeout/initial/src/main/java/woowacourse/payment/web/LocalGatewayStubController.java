@@ -13,24 +13,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LocalGatewayStubController {
 
-  private final long delayMs;
+    private final long delayMs;
 
-  public LocalGatewayStubController(@Value("${demo.slow-gateway-delay-ms:4000}") long delayMs) {
-    this.delayMs = delayMs;
-  }
+    public LocalGatewayStubController(@Value("${demo.slow-gateway-delay-ms:4000}") long delayMs) {
+        this.delayMs = delayMs;
+    }
 
-  @PostMapping("/v1/payments/confirm")
-  public Map<String, Object> confirm(@RequestBody(required = false) Map<String, Object> request)
-      throws InterruptedException {
-    Thread.sleep(delayMs);
+    @PostMapping("/v1/payments/confirm")
+    public Map<String, Object> confirm(@RequestBody(required = false) Map<String, Object> request)
+            throws InterruptedException {
+        Thread.sleep(delayMs);
 
-    var body = request != null ? request : Map.<String, Object>of();
-    var response = new HashMap<String, Object>();
-    response.put("paymentKey", body.getOrDefault("paymentKey", "slow-pk"));
-    response.put("orderId", body.getOrDefault("orderId", "order-slow"));
-    response.put("status", "DONE");
-    response.put("totalAmount", body.getOrDefault("amount", 0));
-    return response;
-  }
+        var body = request != null ? request : Map.<String, Object>of();
+        var response = new HashMap<String, Object>();
+        response.put("paymentKey", body.getOrDefault("paymentKey", "slow-pk"));
+        response.put("orderId", body.getOrDefault("orderId", "order-slow"));
+        response.put("status", "DONE");
+        response.put("totalAmount", body.getOrDefault("amount", 0));
+        return response;
+    }
 
 }

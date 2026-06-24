@@ -5,20 +5,20 @@ package woowacourse.payment.order;
  */
 public class Order {
 
-  private final String orderId;
-  private final Long amount;
+    private final String orderId;
+    private final Long amount;
 
-  public Order(String orderId, Long amount) {
-    this.orderId = orderId;
-    this.amount = amount;
-  }
+    public Order(String orderId, Long amount) {
+        this.orderId = orderId;
+        this.amount = amount;
+    }
 
-  public String getOrderId() {
-    return orderId;
-  }
+    public String getOrderId() {
+        return orderId;
+    }
 
-  public Long getAmount() {
-    return amount;
-  }
+    public Long getAmount() {
+        return amount;
+    }
 
 }
