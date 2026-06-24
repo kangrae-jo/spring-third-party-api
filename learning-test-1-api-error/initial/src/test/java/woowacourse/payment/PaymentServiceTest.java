@@ -18,37 +18,37 @@ import woowacourse.payment.order.OrderRepository;
 @SpringBootTest
 class PaymentServiceTest {
 
-  @Autowired
-  private PaymentService paymentService;
+    @Autowired
+    private PaymentService paymentService;
 
-  @Autowired
-  private OrderRepository orderRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
-  @MockitoBean
-  private PaymentGateway paymentGateway;
+    @MockitoBean
+    private PaymentGateway paymentGateway;
 
-  @BeforeEach
-  void setUp() {
-    orderRepository.save(new Order("order-1", 10000L));
-  }
+    @BeforeEach
+    void setUp() {
+        orderRepository.save(new Order("order-1", 10000L));
+    }
 
-  @Test
-  void 저장금액과_다른_amount면_확인전에_차단되고_게이트웨이는_호출되지_않는다() {
-    assertThatThrownBy(() -> paymentService.confirm("test_pk_1", "order-1", 9000L))
-        .isInstanceOf(PaymentAmountMismatchException.class);
+    @Test
+    void 저장금액과_다른_amount면_확인전에_차단되고_게이트웨이는_호출되지_않는다() {
+        assertThatThrownBy(() -> paymentService.confirm("test_pk_1", "order-1", 9000L))
+                .isInstanceOf(PaymentAmountMismatchException.class);
 
-    verify(paymentGateway, never()).confirm(any());
-  }
+        verify(paymentGateway, never()).confirm(any());
+    }
 
-  @Test
-  void 금액이_일치하면_게이트웨이를_호출한다() {
-    given(paymentGateway.confirm(any()))
-        .willReturn(new PaymentResult("test_pk_1", "order-1", PaymentStatus.DONE, 10000L));
+    @Test
+    void 금액이_일치하면_게이트웨이를_호출한다() {
+        given(paymentGateway.confirm(any()))
+                .willReturn(new PaymentResult("test_pk_1", "order-1", PaymentStatus.DONE, 10000L));
 
-    var result = paymentService.confirm("test_pk_1", "order-1", 10000L);
+        var result = paymentService.confirm("test_pk_1", "order-1", 10000L);
 
-    assertThat(result.status()).isEqualTo(PaymentStatus.DONE);
-    verify(paymentGateway).confirm(new PaymentConfirmation("test_pk_1", "order-1", 10000L));
-  }
+        assertThat(result.status()).isEqualTo(PaymentStatus.DONE);
+        verify(paymentGateway).confirm(new PaymentConfirmation("test_pk_1", "order-1", 10000L));
+    }
 
 }
