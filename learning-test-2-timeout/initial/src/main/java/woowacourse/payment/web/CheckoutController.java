@@ -79,8 +79,16 @@ public class CheckoutController {
     ) {
         try {
             var result = paymentService.confirm(paymentKey, orderId, amount);
-            historyRepository.save(PaymentHistory.of(
-                    true, orderId, result.approvedAmount(), paymentKey, result.status().name(), "실제 Toss 승인"));
+            historyRepository.save(
+                    PaymentHistory.of(
+                            true,
+                            orderId,
+                            result.approvedAmount(),
+                            paymentKey,
+                            result.status().name(),
+                            "실제 Toss 승인"
+                    )
+            );
             model.addAttribute("result", result);
             model.addAttribute("paymentKey", paymentKey);
             return "success";
@@ -122,8 +130,16 @@ public class CheckoutController {
             var result = new TossPaymentGateway(slowClient)
                     .confirm(new PaymentConfirmation(paymentKey, orderId, DEFAULT_AMOUNT));
             var elapsedMs = (System.nanoTime() - start) / 1_000_000;
-            historyRepository.save(PaymentHistory.of(true, orderId, result.approvedAmount(), paymentKey,
-                    result.status().name(), "느린 게이트웨이를 " + elapsedMs + "ms 끝까지 기다림 — 타임아웃 미설정(initial)"));
+            historyRepository.save(
+                    PaymentHistory.of(
+                            true,
+                            orderId,
+                            result.approvedAmount(),
+                            paymentKey,
+                            result.status().name(),
+                            "느린 게이트웨이를 " + elapsedMs + "ms 끝까지 기다림 — 타임아웃 미설정(initial)"
+                    )
+            );
             model.addAttribute("result", result);
             model.addAttribute("paymentKey", paymentKey);
             return "success";

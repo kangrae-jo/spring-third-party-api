@@ -20,8 +20,9 @@ public class LocalGatewayStubController {
     }
 
     @PostMapping("/v1/payments/confirm")
-    public Map<String, Object> confirm(@RequestBody(required = false) Map<String, Object> request)
-            throws InterruptedException {
+    public Map<String, Object> confirm(
+            @RequestBody(required = false) Map<String, Object> request
+    ) throws InterruptedException {
         Thread.sleep(delayMs);
 
         var body = request != null ? request : Map.<String, Object>of();

@@ -19,9 +19,22 @@ public record PaymentHistory(
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     public static PaymentHistory of(
-            boolean success, String orderId, Long amount, String paymentKey, String status, String detail) {
+            boolean success,
+            String orderId,
+            Long amount,
+            String paymentKey,
+            String status,
+            String detail
+    ) {
         return new PaymentHistory(
-                LocalTime.now().format(FORMATTER), orderId, amount, paymentKey, status, detail, success);
+                LocalTime.now().format(FORMATTER),
+                orderId,
+                amount,
+                paymentKey,
+                status,
+                detail,
+                success
+        );
     }
 
 }
