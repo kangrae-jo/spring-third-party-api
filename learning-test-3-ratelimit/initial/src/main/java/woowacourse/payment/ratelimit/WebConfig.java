@@ -17,7 +17,11 @@ public class WebConfig implements WebMvcConfigurer {
             @Value("${rate-limit.capacity}") long capacity,
             @Value("${rate-limit.refill-per-second}") double refillPerSecond
     ) {
-        this.rateLimiter = new TokenBucketRateLimiter(capacity, refillPerSecond, System::nanoTime);
+        this.rateLimiter = new TokenBucketRateLimiter(
+                capacity,
+                refillPerSecond,
+                System::nanoTime
+        );
     }
 
     @Override
