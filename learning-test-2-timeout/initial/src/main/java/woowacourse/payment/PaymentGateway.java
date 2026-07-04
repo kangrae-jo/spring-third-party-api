@@ -5,6 +5,6 @@ package woowacourse.payment;
  */
 public interface PaymentGateway {
 
-  PaymentResult confirm(PaymentConfirmation confirmation);
+    PaymentResult confirm(PaymentConfirmation confirmation);
 
 }
