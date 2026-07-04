@@ -5,8 +5,8 @@ package woowacourse.payment.client;
  */
 public class OutboundRateLimitException extends RuntimeException {
 
-  public OutboundRateLimitException(String message) {
-    super(message);
-  }
+    public OutboundRateLimitException(String message) {
+        super(message);
+    }
 
 }

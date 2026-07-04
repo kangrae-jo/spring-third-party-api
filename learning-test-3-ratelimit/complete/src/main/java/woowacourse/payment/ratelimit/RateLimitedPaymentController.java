@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RateLimitedPaymentController {
 
-  @PostMapping("/v1/payments/confirm")
-  public Map<String, Object> confirm(@RequestBody(required = false) Map<String, Object> request) {
-    var body = request != null ? request : Map.<String, Object>of();
-    var response = new HashMap<String, Object>();
-    response.put("paymentKey", body.getOrDefault("paymentKey", "gw-pk"));
-    response.put("orderId", body.getOrDefault("orderId", "order"));
-    response.put("status", "DONE");
-    response.put("totalAmount", body.getOrDefault("amount", 0));
-    return response;
-  }
+    @PostMapping("/v1/payments/confirm")
+    public Map<String, Object> confirm(@RequestBody(required = false) Map<String, Object> request) {
+        var body = request != null ? request : Map.<String, Object>of();
+        var response = new HashMap<String, Object>();
+        response.put("paymentKey", body.getOrDefault("paymentKey", "gw-pk"));
+        response.put("orderId", body.getOrDefault("orderId", "order"));
+        response.put("status", "DONE");
+        response.put("totalAmount", body.getOrDefault("amount", 0));
+        return response;
+    }
 
 }

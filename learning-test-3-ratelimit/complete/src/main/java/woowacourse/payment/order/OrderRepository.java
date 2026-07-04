@@ -10,18 +10,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class OrderRepository {
 
-  private final Map<String, Order> store = new ConcurrentHashMap<>();
+    private final Map<String, Order> store = new ConcurrentHashMap<>();
 
-  public void save(Order order) {
-    store.put(order.getOrderId(), order);
-  }
-
-  public Order getByOrderId(String orderId) {
-    var order = store.get(orderId);
-    if (order == null) {
-      throw new IllegalArgumentException("주문을 찾을 수 없습니다: " + orderId);
+    public void save(Order order) {
+        store.put(order.getOrderId(), order);
     }
-    return order;
-  }
+
+    public Order getByOrderId(String orderId) {
+        var order = store.get(orderId);
+        if (order == null) {
+            throw new IllegalArgumentException("주문을 찾을 수 없습니다: " + orderId);
+        }
+        return order;
+    }
 
 }

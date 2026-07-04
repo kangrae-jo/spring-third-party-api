@@ -16,28 +16,27 @@ import woowacourse.payment.client.dto.GatewayConfirmResponse;
 @Component
 public class GatewayPaymentGateway implements PaymentGateway {
 
-  private final RestClient gatewayRestClient;
+    private final RestClient gatewayRestClient;
 
-  public GatewayPaymentGateway(RestClient gatewayRestClient) {
-    this.gatewayRestClient = gatewayRestClient;
-  }
+    public GatewayPaymentGateway(RestClient gatewayRestClient) {
+        this.gatewayRestClient = gatewayRestClient;
+    }
 
-  @Override
-  public PaymentResult confirm(PaymentConfirmation confirmation) {
-    var request = new ConfirmRequest(
-        confirmation.paymentKey(), confirmation.orderId(), confirmation.amount());
-    var response = gatewayRestClient.post()
-        .uri("/v1/payments/confirm")
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(request)
-        .retrieve()
-        .body(GatewayConfirmResponse.class);
-    return new PaymentResult(
-        response.paymentKey(),
-        response.orderId(),
-        PaymentStatus.from(response.status()),
-        response.totalAmount()
-    );
-  }
+    @Override
+    public PaymentResult confirm(PaymentConfirmation confirmation) {
+        var request = new ConfirmRequest(confirmation.paymentKey(), confirmation.orderId(), confirmation.amount());
+        var response = gatewayRestClient.post()
+                .uri("/v1/payments/confirm")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(request)
+                .retrieve()
+                .body(GatewayConfirmResponse.class);
+        return new PaymentResult(
+                response.paymentKey(),
+                response.orderId(),
+                PaymentStatus.from(response.status()),
+                response.totalAmount()
+        );
+    }
 
 }
