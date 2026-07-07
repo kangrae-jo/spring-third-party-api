@@ -11,20 +11,20 @@ import org.springframework.web.servlet.HandlerInterceptor;
  */
 public class RateLimitInterceptor implements HandlerInterceptor {
 
-  private final TokenBucketRateLimiter rateLimiter;
+    private final TokenBucketRateLimiter rateLimiter;
 
-  public RateLimitInterceptor(TokenBucketRateLimiter rateLimiter) {
-    this.rateLimiter = rateLimiter;
-  }
-
-  @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-    if (rateLimiter.tryConsume()) {
-      return true;
+    public RateLimitInterceptor(TokenBucketRateLimiter rateLimiter) {
+        this.rateLimiter = rateLimiter;
     }
-    response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-    response.setHeader(HttpHeaders.RETRY_AFTER, String.valueOf(rateLimiter.retryAfterSeconds()));
-    return false;
-  }
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        if (rateLimiter.tryConsume()) {
+            return true;
+        }
+        response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+        response.setHeader(HttpHeaders.RETRY_AFTER, String.valueOf(rateLimiter.retryAfterSeconds()));
+        return false;
+    }
 
 }

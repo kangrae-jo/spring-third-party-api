@@ -9,21 +9,21 @@ import woowacourse.payment.order.OrderRepository;
 @Service
 public class PaymentService {
 
-  private final OrderRepository orderRepository;
-  private final PaymentGateway paymentGateway;
+    private final OrderRepository orderRepository;
+    private final PaymentGateway paymentGateway;
 
-  public PaymentService(OrderRepository orderRepository, PaymentGateway paymentGateway) {
-    this.orderRepository = orderRepository;
-    this.paymentGateway = paymentGateway;
-  }
-
-  public PaymentResult confirm(String paymentKey, String orderId, Long amount) {
-    var order = orderRepository.getByOrderId(orderId);
-    if (!order.getAmount().equals(amount)) {
-      throw new PaymentAmountMismatchException(order.getAmount(), amount);
+    public PaymentService(OrderRepository orderRepository, PaymentGateway paymentGateway) {
+        this.orderRepository = orderRepository;
+        this.paymentGateway = paymentGateway;
     }
-    var confirmation = new PaymentConfirmation(paymentKey, orderId, amount);
-    return paymentGateway.confirm(confirmation);
-  }
+
+    public PaymentResult confirm(String paymentKey, String orderId, Long amount) {
+        var order = orderRepository.getByOrderId(orderId);
+        if (!order.getAmount().equals(amount)) {
+            throw new PaymentAmountMismatchException(order.getAmount(), amount);
+        }
+        var confirmation = new PaymentConfirmation(paymentKey, orderId, amount);
+        return paymentGateway.confirm(confirmation);
+    }
 
 }

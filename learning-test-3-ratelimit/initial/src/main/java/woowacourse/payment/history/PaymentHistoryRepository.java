@@ -12,17 +12,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PaymentHistoryRepository {
 
-  private final Deque<PaymentHistory> store = new ConcurrentLinkedDeque<>();
+    private final Deque<PaymentHistory> store = new ConcurrentLinkedDeque<>();
 
-  public void save(PaymentHistory history) {
-    store.addFirst(history);
-  }
+    public void save(PaymentHistory history) {
+        store.addFirst(history);
+    }
 
-  /**
-   * 최근순(newest-first) 전체 내역.
-   */
-  public List<PaymentHistory> findAll() {
-    return new ArrayList<>(store);
-  }
+    /**
+     * 최근순(newest-first) 전체 내역.
+     */
+    public List<PaymentHistory> findAll() {
+        return new ArrayList<>(store);
+    }
 
 }

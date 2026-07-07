@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record GatewayConfirmResponse(
-    String paymentKey,
-    String orderId,
-    String status,
-    Long totalAmount
+        String paymentKey,
+        String orderId,
+        String status,
+        Long totalAmount
 ) {
 
 }

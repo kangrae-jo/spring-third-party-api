@@ -12,20 +12,19 @@ import woowacourse.payment.ratelimit.TokenBucketRateLimiter;
 @Configuration
 public class BackoffClientConfig {
 
-  @Bean
-  public RestClient gatewayRestClient(
-      @Value("${gateway.base-url}") String baseUrl,
-      @Value("${gateway.max-attempts}") int maxAttempts,
-      @Value("${outbound-rate-limit.capacity}") long outboundCapacity,
-      @Value("${outbound-rate-limit.refill-per-second}") double outboundRefillPerSecond
-  ) {
-    var outboundLimiter =
-        new TokenBucketRateLimiter(outboundCapacity, outboundRefillPerSecond, System::nanoTime);
-    return RestClient.builder()
-        .baseUrl(baseUrl)
-        .requestInterceptor(new OutboundRateLimitInterceptor(outboundLimiter))
-        .requestInterceptor(new RetryAfterInterceptor(maxAttempts))
-        .build();
-  }
+    @Bean
+    public RestClient gatewayRestClient(
+            @Value("${gateway.base-url}") String baseUrl,
+            @Value("${gateway.max-attempts}") int maxAttempts,
+            @Value("${outbound-rate-limit.capacity}") long outboundCapacity,
+            @Value("${outbound-rate-limit.refill-per-second}") double outboundRefillPerSecond
+    ) {
+        var outboundLimiter = new TokenBucketRateLimiter(outboundCapacity, outboundRefillPerSecond, System::nanoTime);
+        return RestClient.builder()
+                .baseUrl(baseUrl)
+                .requestInterceptor(new OutboundRateLimitInterceptor(outboundLimiter))
+                .requestInterceptor(new RetryAfterInterceptor(maxAttempts))
+                .build();
+    }
 
 }
